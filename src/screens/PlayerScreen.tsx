@@ -1,20 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { createAudioService } from '../services/AudioServices';
+import { AudioService } from '../services/AudioServices';
 
-export default function PlayerScreen() {
-  const audioService = createAudioService('../assets/music/07 Automobile.mp3');
+export default function PlayerScreen({ uri }: { uri: string }) {
+  const audioService = AudioService();
   const [isPlaying, setIsPlaying] = useState(false);
 
+  useEffect(() => {
+    // Inicializar el sonido cuando se monta el componente
+    audioService.initializeSound(uri);
+  }, [uri]);
+
   const playOrPauseSound = async () => {
+    // Implementar la lógica para reproducir o pausar el sonido
     await audioService.playOrPauseSound();
     setIsPlaying(!isPlaying);
+  };
+
+  const stopSound = async () => {
+    // Implementar la lógica para detener el sonido
+    await audioService.stopSound();
+    setIsPlaying(false);
   };
 
   return (
     <View>
       <TouchableOpacity onPress={playOrPauseSound}>
         <Text>{isPlaying ? 'Pause Music' : 'Play Music'}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={stopSound}>
+        <Text>Stop Music</Text>
       </TouchableOpacity>
     </View>
   );
