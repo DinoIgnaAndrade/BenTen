@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-
 import PlayerScreen from './src/screens/PlayerScreen';
-
 
 export default function App() {
 
