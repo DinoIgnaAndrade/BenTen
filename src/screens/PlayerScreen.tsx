@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+
 import { AudioService } from '../services/AudioServices';
 
-export default function PlayerScreen({ uri }: { uri: string }) {
+type Props = {
+  uri: string;
+}
+
+const PlayerScreen: React.FC<Props> = ({ uri }) => {
+
   const audioService = AudioService();
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -18,7 +24,7 @@ export default function PlayerScreen({ uri }: { uri: string }) {
   };
 
   const stopSound = async () => {
-    // Implementar la lógica para detener el sonido
+    // Implementar la lógica para detener el sonido y desmontar
     await audioService.stopSound();
     setIsPlaying(false);
   };
@@ -34,3 +40,5 @@ export default function PlayerScreen({ uri }: { uri: string }) {
     </View>
   );
 }
+
+export default PlayerScreen;
