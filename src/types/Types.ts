@@ -9,4 +9,15 @@ export type AudioServiceType<T> = {
 export type AudioFile = {
   name: string;
   uri: string;
+  duration: number;
+}
+
+export type MediaData ={
+  title: string | 'No title';
+  artist: string | 'No artist';
+  album: string | 'No album';
+  genre: string | 'No genre';
+  picture: string | null | undefined;
+  uri: string;
+  duration: number;
 }
