@@ -2,7 +2,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { useState } from 'react';
 
 import { AudioFile, MediaData } from '@/types/Types';
-import MetaData from './FileSystemServices';
+import MetaData from './MetaData';
 
 
 export const getAudioFiles = async (): Promise<MediaData[]> => {

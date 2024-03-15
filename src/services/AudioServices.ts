@@ -1,10 +1,10 @@
 import { Audio } from 'expo-av';
-import * as FileSystem from 'expo-file-system'; // Importa el módulo FileSystem
 import { useState } from 'react';
 
 import { AudioServiceType } from '../types/Types';
 
 export function AudioService(): AudioServiceType<Audio.Sound> {
+
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 

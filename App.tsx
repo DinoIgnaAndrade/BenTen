@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import PlayerScreen from './src/screens/PlayerScreen';
 import TrackList from '@/components/TrackList';
@@ -29,7 +29,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <TrackList audioFiles={audioFiles} />
-      <PlayerScreen uri={uri} />
+      {/* <PlayerScreen uri={uri} /> */}
     </View>
   );
 }
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 });
