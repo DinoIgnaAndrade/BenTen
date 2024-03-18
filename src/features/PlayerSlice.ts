@@ -1,28 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import type { RootState } from "../store/Store";
+
+import type {MediaData}  from "@/types/Types";
+
+const initialState: MediaData = {
+    title: 'No title',
+    artist: 'No artist',
+    album: 'No album',
+    genre: 'No genre',
+    picture: null,
+    uri: '',
+    duration: 0
+}
 
 export const playerSlice = createSlice({
     name: "player",
-    initialState: {
-        uri: "",
-        artist: "",
-        album:"",
-        name: "",
-        duration: 0,
-    },
+    initialState,
     reducers: {
-        setAttributes: (state, action) => {
-            const { uri, artist, album, name, duration } = action.payload;
-            state.uri = uri || state.uri;
-            state.artist = artist || state.artist;
-            state.album = album || state.album;
-            state.name = name || state.name;
-            state.duration = duration || state.duration;
+        setAttributes: (state, action: PayloadAction<MediaData>) => {
+            const { title, artist, album, genre, picture, uri, duration } = action.payload;
+            state.title = title;
+            state.artist = artist;
+            state.album = album;
+            state.genre = genre;
+            state.picture = picture;
+            state.uri = uri;
+            state.duration = duration;
         },
-    },
+    }
 });
 
 export const {
-    setAttributes
+    setAttributes,
   } = playerSlice.actions;
 
 export default playerSlice.reducer;

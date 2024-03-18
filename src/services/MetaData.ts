@@ -10,7 +10,7 @@ export default async function MetaData(uri: string) {
             artist: true,
             album: true,
             genre: true,
-            picture: false
+            picture: true
           });
           return metadata;
     } catch (error) {
