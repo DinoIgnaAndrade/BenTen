@@ -2,19 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet, Image } from 'react-native';
 
-//Redux
-import { useSelector } from 'react-redux';
-import PlayerState from '@/features/PlayerSlice';
-
 //Services
 import { AudioService } from '../services/AudioServices';
 
-//Types
-import { MediaData } from '@/types/Types';
-
 //Asssets
 import backgrounds from '@/global/background';
-import { playerSlice } from './../features/PlayerSlice';
+
+//Hooks
 import { useAppSelector } from '@/hooks/hooks';
 
 //Dimesiones de la pantalla
