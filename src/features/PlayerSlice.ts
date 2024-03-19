@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../store/Store";
 
 import type {MediaData}  from "@/types/Types";
 
@@ -12,6 +11,8 @@ const initialState: MediaData = {
     uri: '',
     duration: 0
 }
+
+const trackImporter : MediaData[] = [];
 
 export const playerSlice = createSlice({
     name: "player",

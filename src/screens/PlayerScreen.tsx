@@ -9,7 +9,7 @@ import { AudioService } from '../services/AudioServices';
 import backgrounds from '@/global/background';
 
 //Hooks
-import { useAppSelector } from '@/hooks/hooks';
+import { useAppSelector } from '../hooks/Hooks';
 
 //Dimesiones de la pantalla
 const windowWidth = Dimensions.get('window').width;

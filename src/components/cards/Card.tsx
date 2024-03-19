@@ -1,6 +1,6 @@
 // Modules Imports
 import React from 'react'
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Text, StyleSheet, Pressable } from 'react-native';
 
 //Types
 import { MediaData } from '@/types/Types';
@@ -9,7 +9,7 @@ import { MediaData } from '@/types/Types';
 import { setAttributes } from '@/features/PlayerSlice';
 
 //Hooks
-import { useAppDispatch } from '@/hooks/hooks';
+import { useAppDispatch } from '../../hooks/Hooks';
 
 type Props = {
   track: MediaData;
@@ -25,7 +25,13 @@ const Card: React.FC<Props> = ({ track }) => {
   }
 
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <Pressable 
+      onPress={onPress}
+      style={({pressed}) => [
+        {opacity: pressed ? 0.5 : 1}
+        ,styles.container]}
+        android_ripple={{color: '#fff'}} 
+      >
       <Text style={styles.title}>{track.title}</Text>
       <Text style={styles.artitst}>{track.artist}</Text>
     </Pressable>
@@ -37,7 +43,7 @@ export default Card;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: 'rgba(0,0,0,0.2)',
     alignItems: 'flex-start',
     padding:10,
   },
