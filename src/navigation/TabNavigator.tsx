@@ -1,34 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import {Image} from 'react-native';
+
+//Icons
+import { EvilIcons } from '@expo/vector-icons';
+
+//Redux
+import { useAppSelector } from '@/hooks/Hooks';
 
 //Navigation
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 //Screens
-import TrackList from '../components/TrackList';
+import TrackScreen from '../screens/TrackScreen';
 import PlayerScreen from '../screens/PlayerScreen';
+import PlaylistScreen from '../screens/PlaylistScreen';
+
+//Assets
+import coverImage from '@/global/cover';
 
 const Tab = createBottomTabNavigator()
+
 const TabNavigator = () => {
+
+    //Redux
+    const picture = useAppSelector(state => state.player.picture);
+
+    //Cover
+    const randomIndex = Math.floor(Math.random() * coverImage.length);
+    const coverI = coverImage[randomIndex];
+    //@ts-ignore
+    const image: any = picture.pictureData? picture.pictureData : coverI;
 
     return (
         <Tab.Navigator
-            screenOptions={{ 
+            screenOptions={{
                 headerShown: false,
                 tabBarStyle: { backgroundColor: '#000' },
                 tabBarActiveTintColor: '#fff',
                 tabBarInactiveTintColor: 'gray',
                 tabBarShowLabel: false,
-             }}
-        >
+            }}>
 
             <Tab.Screen
                 name="TrackList"
-                component={TrackList} />
+                component={TrackScreen}
+                options={{ tabBarIcon: ({ color }) => <EvilIcons name="archive" size={30} color={color} /> }} />
+
+            <Tab.Screen
+                name="PlaylistScreen"
+                component={PlayerScreen}
+                options={{
+                    tabBarIcon: ({ color }) => (
+                        <Image
+                            source={{ uri: image }}
+                            style={{ width: 80, height: 80, borderRadius: 35, transform: [{ translateY: -30 }] }}
+                        />)
+                }} />
 
             <Tab.Screen
                 name="PlayerScreen"
-                component={PlayerScreen} />
-                
+                component={PlaylistScreen}
+                options={{ tabBarIcon: ({ color }) => <EvilIcons name="heart" size={30} color={color} /> }} />
+
 
         </Tab.Navigator>
     )

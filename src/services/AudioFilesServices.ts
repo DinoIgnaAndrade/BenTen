@@ -55,7 +55,6 @@ export const getAudioFiles = async (): Promise<MediaData[]> => {
           uri: file.uri,
           duration: file.duration
         }
-        console.log(track.title,track.uri);
         files.push(track);
       }
     }
