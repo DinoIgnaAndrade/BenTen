@@ -14,11 +14,10 @@ export function AudioService(): AudioServiceType<Audio.Sound> {
         // Si ya hay un sonido cargado, detén y descarga antes de cargar uno nuevo
         await sound.unloadAsync();
       }
-
       console.log('Loading Sound');
       const { sound: newSound } = await Audio.Sound.createAsync(
         { uri: uri },
-        { shouldPlay: false }
+        { shouldPlay: true }
       );
       setSound(newSound);
     } catch (error) {
@@ -52,6 +51,17 @@ export function AudioService(): AudioServiceType<Audio.Sound> {
       }
     } catch (error) {
       console.error('Error stopping sound', error);
+    }
+  }
+
+  async function getStatus() {
+    try {
+      if (sound) {
+        const status = await sound.getStatusAsync();
+        return status;
+      }
+    } catch (error) {
+      console.log('Error getting status', error);
     }
   }
   

@@ -16,23 +16,35 @@ import PlayerScreen from '../screens/PlayerScreen';
 import PlaylistScreen from '../screens/PlaylistScreen';
 
 //Assets
-import coverImage from '@/global/cover';
+import coverImage from '../global/cover';
 
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = () => {
 
+    const randomIndex = Math.floor(Math.random() * coverImage.length);
+    const [iconPlayer, setIconPlayer] = useState(coverImage[randomIndex]);
+
     //Redux
     const picture = useAppSelector(state => state.player.picture);
 
-    //Cover
-    const randomIndex = Math.floor(Math.random() * coverImage.length);
-    const coverI = coverImage[randomIndex];
-    //@ts-ignore
-    const image: any = picture.pictureData? picture.pictureData : coverI;
+    //Seteo de icono
+    useEffect(() => {
+        try{
+          if(picture !== undefined){
+            //@ts-ignore
+            const filePicture = picture.pictureData;
+            setIconPlayer({uri: filePicture});
+          }
+        }catch(error){
+            setIconPlayer(coverImage[randomIndex]);
+            console.log(error);
+        }
+      },[picture]);
 
     return (
         <Tab.Navigator
+            initialRouteName="PlaylistScreen"
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: { backgroundColor: '#000' },
@@ -52,7 +64,7 @@ const TabNavigator = () => {
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Image
-                            source={{ uri: image }}
+                            source={iconPlayer}
                             style={{ width: 80, height: 80, borderRadius: 35, transform: [{ translateY: -30 }] }}
                         />)
                 }} />

@@ -22,22 +22,31 @@ const PlayerScreen: React.FC = () => {
   const track = useAppSelector(state => state.player);
 
   //Background
-  const randomIndex = Math.floor(Math.random() * backgrounds.length);
-  const [bckgnd, setBckgnd] = useState(backgrounds[randomIndex]);
+  const randomBackgroundIndex = Math.floor(Math.random() * backgrounds.length);
+  const [bckgnd, setBckgnd] = useState(backgrounds[randomBackgroundIndex]);
 
   //Cover
-  const coverI = coverImage[randomIndex];
-  //@ts-ignore
-  const image: any = track.picture.pictureData? track.picture.pictureData : coverI;
+  const randomCoverIndex = Math.floor(Math.random() * coverImage.length);
+  const [cover, setCover] = useState(coverImage[randomCoverIndex]);
+
+  //Seteo de cover
+  useEffect(() => {
+    try {
+      if (track.picture !== undefined) {
+        //@ts-ignore
+        const filePicture = track.picture.pictureData;
+        setCover({ uri: filePicture });
+      }
+    } catch (error) {
+      setCover(coverImage[randomCoverIndex]);
+      console.log(error);
+    }
+  }, [track.picture]);
 
   //Sound Services
   const audioService = AudioService();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  useEffect(() => {
-    // Inicializar el sonido cuando se monta el componente
-    audioService.initializeSound(track.uri);
-  }, [track.uri]);
 
   const playOrPauseSound = async () => {
     // Implementar la lógica para reproducir o pausar el sonido
@@ -51,10 +60,17 @@ const PlayerScreen: React.FC = () => {
     setIsPlaying(false);
   };
 
+  useEffect(() => {
+    // Inicializar el sonido cuando se monta el componente
+    if (track.uri !== undefined) {
+      audioService.initializeSound(track.uri);
+    }
+  }, [track.uri]);
+
   return (
     <View style={styles.container}>
       <Image source={bckgnd} style={styles.background} />
-      <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+      <Image source={cover} style={{ width: 200, height: 200 }} />
       <Pressable onPress={playOrPauseSound}>
         <Text>{isPlaying ? 'Pause Music' : 'Play Music'}</Text>
       </Pressable>
@@ -67,7 +83,7 @@ const PlayerScreen: React.FC = () => {
 export default PlayerScreen;
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -78,5 +94,5 @@ const styles = StyleSheet.create({
     width: windowWidth,
     height: windowHeight,
     resizeMode: 'cover',
-}
+  }
 })

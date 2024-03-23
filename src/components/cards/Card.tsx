@@ -10,6 +10,7 @@ import { setAttributes } from '@/features/PlayerSlice';
 
 //Hooks
 import { useAppDispatch } from '../../hooks/Hooks';
+import { AudioService } from './../../services/AudioServices';
 
 type Props = {
   track: MediaData;
@@ -21,7 +22,14 @@ const Card: React.FC<Props> = ({ track }) => {
   const dispatch = useAppDispatch();
 
   const onPress = () =>{
-    dispatch(setAttributes({title: track.title, artist: track.artist, album: track.album, genre: track.genre, picture: track.picture, uri: track.uri, duration: track.duration}));
+    dispatch(setAttributes({
+      title: track.title, 
+      artist: track.artist, 
+      album: track.album, 
+      genre: track.genre, 
+      picture: track.picture, 
+      uri: track.uri, 
+      duration: track.duration}));
   }
 
   return (

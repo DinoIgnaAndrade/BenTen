@@ -27,7 +27,6 @@ const TrackList: React.FC = () => {
   const randomIndex = Math.floor(Math.random() * backgrounds.length);
   const [bckgnd, setBckgnd] = useState(backgrounds[randomIndex]);
 
-
   useEffect(() => {
     const fetchAudioFiles = async () => {
       try {
