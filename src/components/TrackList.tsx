@@ -22,23 +22,9 @@ const windowHeight = Dimensions.get('window').height;
 const TrackList: React.FC = () => {
 
   const audioFiles = useAppSelector(state => state.trackList.tracks);
-  const dispatch = useAppDispatch();
 
   const randomIndex = Math.floor(Math.random() * backgrounds.length);
   const [bckgnd, setBckgnd] = useState(backgrounds[randomIndex]);
-
-  useEffect(() => {
-    const fetchAudioFiles = async () => {
-      try {
-        const files = await getAudioFiles();
-        dispatch(setTracks(files));
-      } catch (error) {
-        console.error('Error al obtener archivos de audio:', error);
-      }
-    };
-    fetchAudioFiles();
-    dispatch(setTracks(audioFiles));
-  }, []);
 
   return (
     <>
