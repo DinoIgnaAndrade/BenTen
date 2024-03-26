@@ -12,6 +12,12 @@ import coverImage from '@/global/cover';
 //Hooks
 import { useAppSelector } from '../hooks/Hooks';
 
+//Icons
+import { EvilIcons } from '@expo/vector-icons';
+import Controls from '@/components/playerComponets/Controls';
+import TagInfo from '@/components/playerComponets/TagInfo';
+import Slider from '@/components/playerComponets/Slider';
+
 //Dimesiones de la pantalla
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -21,6 +27,10 @@ const PlayerScreen: React.FC = () => {
   //Redux State
   const track = useAppSelector(state => state.player);
 
+  //Sound Services
+  const audioService = AudioService();
+  const [isPlaying, setIsPlaying] = useState(false);
+
   //Background
   const randomBackgroundIndex = Math.floor(Math.random() * backgrounds.length);
   const [bckgnd, setBckgnd] = useState(backgrounds[randomBackgroundIndex]);
@@ -28,6 +38,21 @@ const PlayerScreen: React.FC = () => {
   //Cover
   const randomCoverIndex = Math.floor(Math.random() * coverImage.length);
   const [cover, setCover] = useState(coverImage[randomCoverIndex]);
+
+  // Inicializar el sonido cuando se monta el componente
+  useEffect(() => {
+    if (track.uri !== '') {
+      audioService.initializeSound(track.uri);
+      setIsPlaying(true);
+    }
+  }, [track.uri]);
+
+  //Funciones de control
+  const playOrPauseSound = async () => {
+    // Implementar la lógica para reproducir o pausar el sonido
+    await audioService.playOrPauseSound();
+    audioService.isPlaying ? setIsPlaying(false) : setIsPlaying(true);
+  };
 
   //Seteo de cover
   useEffect(() => {
@@ -43,40 +68,27 @@ const PlayerScreen: React.FC = () => {
     }
   }, [track.picture]);
 
-  //Sound Services
-  const audioService = AudioService();
-  const [isPlaying, setIsPlaying] = useState(false);
-
-
-  const playOrPauseSound = async () => {
-    // Implementar la lógica para reproducir o pausar el sonido
-    await audioService.playOrPauseSound();
-    setIsPlaying(!isPlaying);
-  };
-
-  const stopSound = async () => {
-    // Implementar la lógica para detener el sonido y desmontar
-    await audioService.stopSound();
-    setIsPlaying(false);
-  };
-
-  useEffect(() => {
-    // Inicializar el sonido cuando se monta el componente
-    if (track.uri !== undefined) {
-      audioService.initializeSound(track.uri);
-    }
-  }, [track.uri]);
-
   return (
     <View style={styles.container}>
+
       <Image source={bckgnd} style={styles.background} />
-      <Image source={cover} style={{ width: 200, height: 200 }} />
-      <Pressable onPress={playOrPauseSound}>
-        <Text>{isPlaying ? 'Pause Music' : 'Play Music'}</Text>
-      </Pressable>
-      <Pressable onPress={stopSound}>
-        <Text>Stop Music</Text>
-      </Pressable>
+
+      {/* <Slider
+        duration={track.duration}
+        isPlaying={isPlaying}
+      /> */}
+
+      <TagInfo
+        coverImage={cover}
+        artist={track.artist}
+        title={track.title}
+      />
+
+      <Controls
+        isPlaying={isPlaying}
+        playOrPauseSound={playOrPauseSound}
+      />
+
     </View>
   );
 }
@@ -88,11 +100,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  //Imagenes
   background: {
     flex: 1,
     position: 'absolute',
     width: windowWidth,
     height: windowHeight,
     resizeMode: 'cover',
-  }
+  },
+  imageCover: {
+    width: '80%',
+    height: '40%',
+    borderRadius: 50,
+  },
+
+  //Textos
+  infoContainer: {
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+    marginTop: 20,
+  },
+  artist: {
+    fontSize: 18,
+    color: 'white',
+  },
+
 })

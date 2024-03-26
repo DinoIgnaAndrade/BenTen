@@ -4,6 +4,8 @@ export type AudioServiceType<T> = {
   initializeSound: (uri: string) => Promise<void>;
   playOrPauseSound: () => Promise<void>;
   stopSound: () => Promise<void>;
+  setLoop: (boolean: boolean) => Promise<void>;
+  setMiliSecondsPosition: (position: number) => Promise<void>;
 };
 
 export type AudioFile = {

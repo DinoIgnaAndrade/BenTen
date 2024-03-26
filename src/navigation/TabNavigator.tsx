@@ -17,6 +17,7 @@ import PlaylistScreen from '../screens/PlaylistScreen';
 
 //Assets
 import coverImage from '../global/cover';
+import { ResizeMode } from 'expo-av';
 
 const Tab = createBottomTabNavigator()
 
@@ -62,10 +63,13 @@ const TabNavigator = () => {
                 name="PlaylistScreen"
                 component={PlayerScreen}
                 options={{
-                    tabBarIcon: ({ color }) => (
+                    tabBarIcon: ({ focused }) => (
                         <Image
                             source={iconPlayer}
-                            style={{ width: 80, height: 80, borderRadius: 35, transform: [{ translateY: -30 }] }}
+                            style={[
+                                {borderRadius: 100, resizeMode: 'cover', transform: [{ translateY: -20 },] },
+                                focused ? { width: 60, height: 60 } : {width: 100, height: 100}
+                              ]}
                         />)
                 }} />
 
