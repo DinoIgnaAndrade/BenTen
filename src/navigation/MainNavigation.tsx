@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import {View, StyleSheet } from 'react-native';
 
 //Navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,29 +12,52 @@ import { useAppDispatch } from '@/hooks/Hooks';
 import { getAudioFiles } from '@/services/AudioFilesServices';
 import { setTracks } from '@/features/TracksSlice';
 
+//Components
+import ActivityIndicator from '../components/ActivityIndicator' 
+
 const MainNavigation = () => {
 
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchAudioFiles = async () => {
-          try {
-            const files = await getAudioFiles();
-            dispatch(setTracks(files));
-          } catch (error) {
-            console.error('Error al obtener archivos de audio:', error);
-          }
-        };
-        fetchAudioFiles();
-      }, []);
+  useEffect(() => {
+    const fetchAudioFiles = async () => {
+      try {
+        const files = await getAudioFiles();
+        dispatch(setTracks(files));
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error al obtener archivos de audio:', error);
+        setIsLoading(false);
+      }
+    };
+    fetchAudioFiles();
+  }, []);
 
+  if (isLoading) {
     return (
-        <NavigationContainer>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
-            <TabNavigator />
+  return (
+    <NavigationContainer>
 
-        </NavigationContainer>
-    )
+      <TabNavigator />
+
+    </NavigationContainer>
+  )
 }
 
 export default MainNavigation;
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  },
+});

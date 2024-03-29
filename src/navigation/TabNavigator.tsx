@@ -17,7 +17,6 @@ import PlaylistScreen from '../screens/PlaylistScreen';
 
 //Assets
 import coverImage from '../global/cover';
-import { ResizeMode } from 'expo-av';
 
 const Tab = createBottomTabNavigator()
 

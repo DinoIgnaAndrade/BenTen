@@ -1,6 +1,6 @@
 //Modules Imports
 import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions, StyleSheet, Image, Pressable } from 'react-native';
+import { View, Dimensions, StyleSheet, Image } from 'react-native';
 
 //Services
 import { AudioService } from '../services/AudioServices';
@@ -11,9 +11,9 @@ import coverImage from '@/global/cover';
 
 //Hooks
 import { useAppSelector } from '../hooks/Hooks';
+import { useCoverSettingImage, useSoundInitialization, useTimeConversion } from '@/hooks/usePlayerEffects';
 
-//Icons
-import { EvilIcons } from '@expo/vector-icons';
+//Components
 import Controls from '@/components/playerComponets/Controls';
 import TagInfo from '@/components/playerComponets/TagInfo';
 import Slider from '@/components/playerComponets/Slider';
@@ -23,6 +23,11 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const PlayerScreen: React.FC = () => {
+
+
+  //States Track Time
+  const [trackDuration, setTrackDuration] = useState({ minutes: 0, seconds: 0 });
+  const [currentTime, setCurrentTime] = useState({ minutes: 0, seconds: 0 });
 
   //Redux State
   const track = useAppSelector(state => state.player);
@@ -40,12 +45,23 @@ const PlayerScreen: React.FC = () => {
   const [cover, setCover] = useState(coverImage[randomCoverIndex]);
 
   // Inicializar el sonido cuando se monta el componente
+  useSoundInitialization(track.uri, track.duration, setCurrentTime, setIsPlaying, setTrackDuration, audioService);
+
+  //Seteo de cover
+  useCoverSettingImage(track, randomCoverIndex, coverImage, setCover);
+
+  //Conversion de tiempo
+  useTimeConversion(isPlaying, setCurrentTime);
+
+
+  //Reseteo de y desmonte
   useEffect(() => {
-    if (track.uri !== '') {
-      audioService.initializeSound(track.uri);
-      setIsPlaying(true);
+    if (currentTime.minutes === trackDuration.minutes && currentTime.seconds === trackDuration.seconds) {
+      setIsPlaying(false);
+      audioService.stopSound();
+      setCurrentTime({ minutes: 0, seconds: 0 });
     }
-  }, [track.uri]);
+  }, [currentTime, trackDuration]);
 
   //Funciones de control
   const playOrPauseSound = async () => {
@@ -54,32 +70,18 @@ const PlayerScreen: React.FC = () => {
     audioService.isPlaying ? setIsPlaying(false) : setIsPlaying(true);
   };
 
-  //Seteo de cover
-  useEffect(() => {
-    try {
-      if (track.picture !== undefined) {
-        //@ts-ignore
-        const filePicture = track.picture.pictureData;
-        setCover({ uri: filePicture });
-      }
-    } catch (error) {
-      setCover(coverImage[randomCoverIndex]);
-      console.log(error);
-    }
-  }, [track.picture]);
-
   return (
     <View style={styles.container}>
 
       <Image source={bckgnd} style={styles.background} />
 
-      {/* <Slider
-        duration={track.duration}
-        isPlaying={isPlaying}
-      /> */}
+      <Slider
+        totalDuration={trackDuration}
+        currentTime={currentTime}
+        image={cover}
+      />
 
       <TagInfo
-        coverImage={cover}
         artist={track.artist}
         title={track.title}
       />
@@ -109,25 +111,4 @@ const styles = StyleSheet.create({
     height: windowHeight,
     resizeMode: 'cover',
   },
-  imageCover: {
-    width: '80%',
-    height: '40%',
-    borderRadius: 50,
-  },
-
-  //Textos
-  infoContainer: {
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    marginTop: 20,
-  },
-  artist: {
-    fontSize: 18,
-    color: 'white',
-  },
-
 })

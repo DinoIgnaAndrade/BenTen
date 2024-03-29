@@ -23,3 +23,8 @@ export type MediaData ={
   uri: string;
   duration: number;
 }
+
+export type Time = {
+  minutes: number;
+  seconds: number;
+}

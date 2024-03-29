@@ -18,14 +18,22 @@
       "supportsTablet": true
     },
     "android": {
-      "permissions": ["READ_EXTERNAL_STORAGE"],
+      "permissions": [
+        "READ_EXTERNAL_STORAGE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.d1no1gna.BenTen"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d5565c2a-bcc6-42d8-9ebc-aa28fc0b50c8"
+      }
     }
   }
 }

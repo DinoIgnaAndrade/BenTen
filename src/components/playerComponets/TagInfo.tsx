@@ -2,17 +2,14 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 type Props = {
-    coverImage: any;
     artist: string;
     title: string;
 }
 
-const TagInfo: React.FC<Props> = ({ coverImage, artist, title }) => {
+const TagInfo: React.FC<Props> = ({artist, title }) => {
 
     return (
         <>
-            <Image source={coverImage} style={styles.imageCover} />
-
             <View style={styles.infoContainer}>
                 <Text style={styles.title}>{title}</Text>
                 <Text style={styles.artist}>{artist}</Text>
