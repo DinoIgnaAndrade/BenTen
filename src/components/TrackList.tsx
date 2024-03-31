@@ -2,7 +2,7 @@
 import { View, Text, FlatList, StyleSheet, Image, Dimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
-import { useAppDispatch } from '@/hooks/Hooks';
+import { useAppDispatch } from '@/hooks/ReduxHooks';
 import { setTracks } from '@/features/TracksSlice';
 
 //Components
@@ -10,7 +10,7 @@ import Card from './cards/Card';
 
 //Asssets
 import backgrounds from '@/global/background';
-import { useAppSelector } from '@/hooks/Hooks';
+import { useAppSelector } from '@/hooks/ReduxHooks';
 
 //Services
 import { getAudioFiles } from '../services/AudioFilesServices';

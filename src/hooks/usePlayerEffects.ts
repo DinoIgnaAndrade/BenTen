@@ -1,17 +1,7 @@
 import { useEffect } from 'react';
 import { Time } from '../types/Types';
+import { convertTime, convertTimeToMilliseconds } from '../utils/converters';
 
-//Conversion de tiempo: Milisegundos/Minutos-Segundos
-function convertTime(durationSeconds: number) {
-    let totalSeconds = Math.floor(durationSeconds);
-    let minutes = Math.floor(totalSeconds / 60);
-    let seconds = (totalSeconds % 60) + 10;
-    const time: Time = {
-        minutes: minutes,
-        seconds: seconds
-    }
-    return time;
-}
 
 // Inicializar el sonido cuando se monta el componente
 export const useSoundInitialization = (trackUri: string, trackDuration: number, setCurrentTime: any, setIsPlaying: any, setTrackDuration: any, audioService: any) => {
@@ -25,7 +15,7 @@ export const useSoundInitialization = (trackUri: string, trackDuration: number, 
     }, [trackUri]);
 };
 
-//Seteo de cover
+// Seteo de cover
 export const useCoverSettingImage = (track: any, randomCoverIndex: number, coverImage: any, setCover: any) => {
     useEffect(() => {
         try {
@@ -41,7 +31,7 @@ export const useCoverSettingImage = (track: any, randomCoverIndex: number, cover
     }, [track.picture]);
 }
 
-//Conversion de tiempo
+// Conversion de tiempo
 export const useTimeConversion = (isPlaying: boolean, setCurrentTime: any) => {
     useEffect(() => {
         let intervalId: any;
@@ -58,4 +48,35 @@ export const useTimeConversion = (isPlaying: boolean, setCurrentTime: any) => {
         }
         return () => clearInterval(intervalId);
     }, [isPlaying]);
+}
+
+// Reseteo y desmonte
+export const useReset = (currentTime: Time, trackDuration: Time, setIsPlaying: any, audioService: any, setCurrentTime: any) => {
+    useEffect(() => {
+        if (currentTime.minutes === trackDuration.minutes && currentTime.seconds === trackDuration.seconds) {
+            setIsPlaying(false);
+            audioService.stopSound();
+            setCurrentTime({ minutes: 0, seconds: 0 });
+        }
+    }, [currentTime, trackDuration]);
+}
+
+// Calcular el porcentaje de progreso
+export const useProgress = (currentTime: Time, totalDuration: Time, setProgress: any) => {
+    useEffect(() => {
+        const currentTimeInSeconds = currentTime.minutes * 60 + currentTime.seconds;
+        const durationInSeconds = totalDuration.minutes * 60 + totalDuration.seconds;
+        const calculatedProgress = (currentTimeInSeconds / durationInSeconds) * 100;
+        setProgress(calculatedProgress);
+    }, [currentTime, totalDuration]);
+}
+
+// Seteo de tiempo
+export const useSetTime = (changeTime: Time, audioService: any, setCurrentTime: any) => {
+    useEffect(() => {
+        if (changeTime.minutes !== 0 || changeTime.seconds !== 0) {
+            setCurrentTime(changeTime);
+            audioService.setMiliSecondsPosition(convertTimeToMilliseconds(changeTime));
+        }
+    }, [changeTime]);
 }

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import { View, StyleSheet, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 //Icons

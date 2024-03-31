@@ -9,7 +9,7 @@ import { MediaData } from '@/types/Types';
 import { setAttributes } from '@/features/PlayerSlice';
 
 //Hooks
-import { useAppDispatch } from '../../hooks/Hooks';
+import { useAppDispatch } from '../../hooks/ReduxHooks';
 import { AudioService } from './../../services/AudioServices';
 
 type Props = {

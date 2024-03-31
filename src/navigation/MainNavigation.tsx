@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './TabNavigator';
 
 //Redux
-import { useAppDispatch } from '@/hooks/Hooks';
+import { useAppDispatch } from '@/hooks/ReduxHooks';
 
 //Services
 import { getAudioFiles } from '@/services/AudioFilesServices';

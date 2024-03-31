@@ -5,7 +5,7 @@ import {Image} from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 
 //Redux
-import { useAppSelector } from '@/hooks/Hooks';
+import { useAppSelector } from '@/hooks/ReduxHooks';
 
 //Navigation
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
