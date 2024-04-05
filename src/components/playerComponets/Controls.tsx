@@ -1,8 +1,10 @@
 import { View, StyleSheet, Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
-
+import React from 'react'
 //Icons
-import { EvilIcons } from '@expo/vector-icons';
+import PauseIcon from '../svg/controls/PauseIcon';
+import PlayIcon from '../svg/controls/PlayIcon';
+import RightArrowIcon from '../svg/controls/RightArrowIcon';
+import LeftArrowIcon from '../svg/controls/LeftArrowIcon';
 
 type Props = {
   isPlaying: boolean
@@ -16,21 +18,21 @@ const Controls: React.FC<Props> = ({ isPlaying, playOrPauseSound }) => {
     <View style={styles.controlsContainer}>
       
       <Pressable style={styles.arrow} onPress={null}>
-        <EvilIcons name="chevron-left" size={50} color="black" />
+        <LeftArrowIcon size={50} color="white"/>
       </Pressable>
 
       <Pressable style={styles.play} onPress={playOrPauseSound}>
         {
           isPlaying
             ?
-            <EvilIcons name="play" size={54} color="black"/>
+            <PauseIcon size={70} color="white"/>
             :
-            <EvilIcons name="play" size={50} color="grey" />
+            <PlayIcon size={70} color="gray"/>
         }
       </Pressable>
 
       <Pressable style={styles.arrow} onPress={null}>
-        <EvilIcons name="chevron-right" size={50} color="black" />
+        <RightArrowIcon size={50} color="white"/>
       </Pressable>
     </View>
 
@@ -45,16 +47,15 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    gap: 20,
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 100,
   },
   play: {
-    padding: 10,
-    margin: 10,
+    
   },
   arrow: {
     padding: 10,
-    margin: 10,
   },
 })

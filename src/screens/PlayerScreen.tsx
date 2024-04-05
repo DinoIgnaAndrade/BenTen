@@ -1,5 +1,5 @@
 //Modules Imports
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Dimensions, StyleSheet, Image } from 'react-native';
 //Services
 import { AudioService } from '../services/AudioServices';
@@ -37,7 +37,6 @@ const PlayerScreen: React.FC = () => {
   //Cover
   const randomCoverIndex = Math.floor(Math.random() * coverImage.length);
   const [cover, setCover] = useState(coverImage[randomCoverIndex]);
-
   //HOOKS
   // Inicializar el sonido cuando se monta el componente
   useSoundInitialization(track.uri, track.duration, setCurrentTime, setIsPlaying, setTrackDuration, audioService);

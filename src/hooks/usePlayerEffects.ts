@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Time } from '../types/Types';
 import { convertTime, convertTimeToMilliseconds } from '../utils/converters';
 
-
 // Inicializar el sonido cuando se monta el componente
 export const useSoundInitialization = (trackUri: string, trackDuration: number, setCurrentTime: any, setIsPlaying: any, setTrackDuration: any, audioService: any) => {
     useEffect(() => {

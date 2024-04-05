@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import {Image} from 'react-native';
-
+import {Image, View} from 'react-native';
 //Icons
-import { EvilIcons } from '@expo/vector-icons';
-
+import VinylIcon from '@/components/svg/VinylIcon'; 
+import HeartIcon from '@/components/svg/HeartIcon';
 //Redux
 import { useAppSelector } from '@/hooks/ReduxHooks';
-
 //Navigation
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
 //Screens
-import TrackScreen from '../screens/TrackScreen';
+import TrackScreen from '../screens/tracklists/TrackScreen';
 import PlayerScreen from '../screens/PlayerScreen';
 import PlaylistScreen from '../screens/PlaylistScreen';
-
+//Navigator
+import TopTabNavigator from './TopTabNavigator';
 //Assets
 import coverImage from '../global/cover';
 
@@ -55,8 +53,8 @@ const TabNavigator = () => {
 
             <Tab.Screen
                 name="TrackList"
-                component={TrackScreen}
-                options={{ tabBarIcon: ({ color }) => <EvilIcons name="archive" size={30} color={color} /> }} />
+                component={TopTabNavigator}
+                options={{ tabBarIcon: ({ color }) =>  <View style={{ alignContent: 'center', justifyContent: 'center'}}><VinylIcon  size={55} color={color} /></View> }} />
 
             <Tab.Screen
                 name="PlaylistScreen"
@@ -75,7 +73,7 @@ const TabNavigator = () => {
             <Tab.Screen
                 name="PlayerScreen"
                 component={PlaylistScreen}
-                options={{ tabBarIcon: ({ color }) => <EvilIcons name="heart" size={30} color={color} /> }} />
+                options={{ tabBarIcon: ({ color }) => <View style={{ alignContent: 'center', justifyContent: 'center'}}><HeartIcon size={35} color={color} /></View> }} />
 
 
         </Tab.Navigator>

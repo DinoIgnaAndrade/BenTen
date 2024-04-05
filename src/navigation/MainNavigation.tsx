@@ -10,7 +10,7 @@ import { useAppDispatch } from '@/hooks/ReduxHooks';
 
 //Services
 import { getAudioFiles } from '@/services/AudioFilesServices';
-import { setTracks } from '@/features/TracksSlice';
+import { setAlbums, setArtists, setGenres, setTracks } from '@/features/TracksSlice';
 
 //Components
 import ActivityIndicator from '../components/ActivityIndicator' 
@@ -20,11 +20,17 @@ const MainNavigation = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
+
   useEffect(() => {
     const fetchAudioFiles = async () => {
       try {
         const files = await getAudioFiles();
         dispatch(setTracks(files));
+
+        dispatch(setAlbums());
+        dispatch(setGenres());
+        dispatch(setArtists());
+        
         setIsLoading(false);
       } catch (error) {
         console.error('Error al obtener archivos de audio:', error);

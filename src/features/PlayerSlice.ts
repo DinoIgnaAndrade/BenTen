@@ -9,10 +9,8 @@ const initialState: MediaData = {
     genre: 'No genre',
     picture: null,
     uri: '',
-    duration: 0
+    duration: 0,
 }
-
-const trackImporter : MediaData[] = [];
 
 export const playerSlice = createSlice({
     name: "player",

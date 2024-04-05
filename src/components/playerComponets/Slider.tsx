@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PanResponder, Animated } from 'react-native';
 import Svg, { Circle, Defs, ClipPath, Image as SvgImage, LinearGradient, Stop } from 'react-native-svg';
-
 //Hooks
 import { useProgress } from '@/hooks/usePlayerEffects';
 import { Time } from '@/types/Types';
