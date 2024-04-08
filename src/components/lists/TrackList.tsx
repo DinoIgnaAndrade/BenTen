@@ -2,7 +2,7 @@
 import { FlatList, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 //Components
-import Card from './cards/Card';
+import Card from '../cards/Card';
 //Hooks
 import { MediaData } from '@/types/Types';
 

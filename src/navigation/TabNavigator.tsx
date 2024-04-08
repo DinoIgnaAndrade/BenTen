@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {Image, View} from 'react-native';
 //Icons
-import VinylIcon from '@/components/svg/VinylIcon'; 
-import HeartIcon from '@/components/svg/HeartIcon';
+import VinylIcon from '@/components/svg/tabBarIcon/VinylIcon'; 
+import HeartIcon from '@/components/svg/tabBarIcon/HeartIcon';
 //Redux
 import { useAppSelector } from '@/hooks/ReduxHooks';
 //Navigation
@@ -46,8 +46,8 @@ const TabNavigator = () => {
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: { backgroundColor: '#000' },
-                tabBarActiveTintColor: '#fff',
-                tabBarInactiveTintColor: 'gray',
+                tabBarActiveTintColor: '#edb347',
+                tabBarInactiveTintColor: '#1e5d78',
                 tabBarShowLabel: false,
             }}>
 

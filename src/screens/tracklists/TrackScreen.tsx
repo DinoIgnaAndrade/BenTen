@@ -1,7 +1,7 @@
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 //Components
-import TrackList from '@/components/TrackList'
+import TrackList from '@/components/lists/TrackList'
 //Assets
 import backgrounds from '@/global/background';
 //Hooks

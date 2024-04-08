@@ -1,5 +1,5 @@
 // Modules Imports
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Text, StyleSheet, Pressable } from 'react-native';
 //Types
 import { MediaData } from '@/types/Types';
@@ -25,6 +25,14 @@ const Card: React.FC<Props> = ({ track, text, category }) => {
       case 'artist': {
         dispatch(setCategoryArtist(text!));
         break;
+      }
+      case 'album': {
+        dispatch(setCategoryAlbum(text!));
+        break;
+      }
+      case 'genre': {
+        dispatch(setCategoryGenre(text!));
+        
       }
     }
   }

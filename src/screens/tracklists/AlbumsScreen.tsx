@@ -1,37 +1,41 @@
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-//Components
-import TrackList from '@/components/TrackList'
 //Assets
 import backgrounds from '@/global/background';
 //Hooks
-import { useAppSelector } from '@/hooks/ReduxHooks';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import { useAppDispatch, useAppSelector } from '@/hooks/ReduxHooks';
+import List from '@/components/lists/List';
+import { MediaData } from '@/types/Types';
+import { setCategoryAlbum, setTracksByAlbum } from '@/features/TracksSlice';
 
 const AlbumScreen = () => {
+
+  const dispatch = useAppDispatch()
   const randomIndex = Math.floor(Math.random() * backgrounds.length);
   const [bckgnd, setBckgnd] = useState(backgrounds[randomIndex]);
+  const [showTrack, setShowTrack] = useState(false)
 
   const albums: string[] = useAppSelector((state) => state.trackList.albums);
-  
+  const album: string = useAppSelector((state) => state.trackList.album);
+  const tracks: MediaData[] = useAppSelector((state) => state.trackList.tracksByAlbum);
+
+  console.log(album)
+
+  useEffect(() => {
+    if (album) {
+      setShowTrack(true)
+      dispatch(setTracksByAlbum());
+    }
+  }, [album])
+
+  const handleBack = () => {
+    dispatch(setCategoryAlbum(''))
+    setShowTrack(false)
+  }
+
   return (
-    <View>
-      <Image source={bckgnd} style={styles.background} />
-      <TrackList text={albums}/>
-    </View>
+
+      <List category='album' backgroundSource={bckgnd} showTrack={showTrack} list={albums} tracks={tracks} onBackPress={handleBack} />
   )
 }
 
 export default AlbumScreen
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    position: 'absolute',
-    width: windowWidth,
-    height: windowHeight,
-    resizeMode: 'cover',
-  }
-})

@@ -1,26 +1,19 @@
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-//Components
-import TrackList from '@/components/TrackList'
 //Assets
 import backgrounds from '@/global/background';
 //Hooks
 import { useAppDispatch, useAppSelector } from '@/hooks/ReduxHooks';
 //Redux
-import { setTracksByArtist } from '@/features/TracksSlice';
+import {setCategoryArtist, setTracksByArtist } from '@/features/TracksSlice';
 //Types
 import { MediaData } from '@/types/Types';
-
-
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import List from '@/components/lists/List';
 
 const ArtistScreen = () => {
   const dispatch = useAppDispatch()
   const randomIndex = Math.floor(Math.random() * backgrounds.length);
   const [bckgnd, setBckgnd] = useState(backgrounds[randomIndex]);
-  const[showTrack, setShowTrack] = useState(false)
+  const [showTrack, setShowTrack] = useState(false)
 
   const artists: string[] = useAppSelector((state) => state.trackList.artists);
   const artist: string = useAppSelector((state) => state.trackList.artist);
@@ -31,30 +24,16 @@ const ArtistScreen = () => {
       setShowTrack(true)
       dispatch(setTracksByArtist());
     }
-  },[artist])
+  }, [artist])
+
+  const handleBack = () => {
+    dispatch(setCategoryArtist(''))
+    setShowTrack(false)
+  }
 
   return (
-    <View>
-      <Image source={bckgnd} style={styles.background} />
-      {
-        showTrack
-        ?
-        (<TrackList audioFiles={tracks} />)
-        :
-        (<TrackList category='artist' text={artists} />)
-      }
-    </View>
+    <List category='artist' backgroundSource={bckgnd} showTrack={showTrack} list={artists} tracks={tracks} onBackPress={handleBack} />
   )
 }
 
 export default ArtistScreen
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    position: 'absolute',
-    width: windowWidth,
-    height: windowHeight,
-    resizeMode: 'cover',
-  }
-})
