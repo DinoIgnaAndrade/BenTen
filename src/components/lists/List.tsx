@@ -14,23 +14,34 @@ type Props = {
     list: string[];
     tracks: MediaData[];
     onBackPress: () => void;
+    setTrackHandler: ({ track }: { track: MediaData }) => void;
+    setQueueHandler: () => void;
 }
 
-const List: React.FC<Props> = ({ category, backgroundSource, showTrack, list, tracks, onBackPress,}) => {
+const List: React.FC<Props> = ({ category, backgroundSource, showTrack, list, tracks, onBackPress, setTrackHandler, setQueueHandler }) => {
 
     return (
         <View>
             <Image source={backgroundSource} style={styles.background} />
-            {showTrack ? (
-                <>
-                    <Pressable style={styles.back} onPress={onBackPress}>
-                        <BackIcon color='white' size={30} />
-                    </Pressable>
-                    <TrackList audioFiles={tracks} />
-                </>
-            ) : (
-                <TrackList category={category} text={list} />
-            )}
+            {
+                showTrack
+                    ?
+                    (
+                        <>
+                            <Pressable style={styles.back} onPress={onBackPress}>
+                                <BackIcon color='white' size={30} />
+                            </Pressable>
+                            <TrackList 
+                                audioFiles={tracks}
+                                setTrackHandler={setTrackHandler}
+                                setQueueHandler={setQueueHandler} />
+                        </>
+                    )
+                    :
+                    (
+                        <TrackList category={category} text={list} />
+                    )
+            }
         </View>
     );
 };

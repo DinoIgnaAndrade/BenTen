@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MediaData } from "@/types/Types";
 
-interface TrackListState {
+type TrackListState = {
     tracks: MediaData[];
+    tracksQueue: MediaData[];
 
     tracksByGenre: MediaData[];
     tracksByArtist: MediaData[];
@@ -18,6 +19,7 @@ interface TrackListState {
 }
 const initialState: TrackListState = {
     tracks: [],
+    tracksQueue: [],
 
     tracksByGenre: [],
     tracksByArtist: [],
@@ -39,6 +41,10 @@ export const trackListSlice = createSlice({
         setTracks: (state, action: PayloadAction<MediaData[]>) => {
             state.tracks = action.payload;
         },
+        setTracksQueue: (state, action: PayloadAction<MediaData[]>) => {
+            state.tracksQueue = action.payload;
+        },
+        
 
         setTracksByGenre: (state) => {
             state.tracksByGenre = state.tracks.filter(track => track.genre === state.genre);
@@ -75,22 +81,23 @@ export const trackListSlice = createSlice({
     },
 });
 
-export const 
-{
-    setTracks,
+export const
+    {
+        setTracks,
+        setTracksQueue,
 
-    setTracksByGenre,
-    setTracksByArtist,
-    setTracksByAlbum,
+        setTracksByGenre,
+        setTracksByArtist,
+        setTracksByAlbum,
 
-    setGenres,
-    setArtists,
-    setAlbums,
+        setGenres,
+        setArtists,
+        setAlbums,
 
-    setCategoryGenre,
-    setCategoryArtist,
-    setCategoryAlbum
+        setCategoryGenre,
+        setCategoryArtist,
+        setCategoryAlbum
 
-} = trackListSlice.actions;
+    } = trackListSlice.actions;
 
 export default trackListSlice.reducer;

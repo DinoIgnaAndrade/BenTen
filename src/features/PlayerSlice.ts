@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
 import type {MediaData}  from "@/types/Types";
 
 const initialState: MediaData = {

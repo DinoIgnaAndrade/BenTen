@@ -1,6 +1,6 @@
 //Modules Imports
-import { FlatList, StyleSheet } from 'react-native'
-import React, { useEffect } from 'react'
+import { FlatList } from 'react-native'
+import React from 'react'
 //Components
 import Card from '../cards/Card';
 //Hooks
@@ -10,13 +10,15 @@ type Props = {
   audioFiles?: MediaData[];
   text?: string[];
   category?: string;
+  setTrackHandler?: ({ track }: { track: MediaData }) => void;
+  setQueueHandler?: () => void;
 }
 
-const TrackList: React.FC<Props> = ({ audioFiles, text, category }) => {
+const TrackList: React.FC<Props> = ({ audioFiles, text, category, setTrackHandler, setQueueHandler }) => {
   return (
     <>
       {
-        text && !audioFiles
+        text 
          ? 
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -30,7 +32,7 @@ const TrackList: React.FC<Props> = ({ audioFiles, text, category }) => {
           showsVerticalScrollIndicator={false}
           style={{ backfaceVisibility: 'hidden', backgroundColor: 'transparent' }}
           data={audioFiles}
-          renderItem={({ item }) => <Card track={item} />}
+          renderItem={({ item }) => <Card track={item} setTrackHandler={setTrackHandler} setQueueHandler={setQueueHandler} />}
           keyExtractor={(item) => item.uri}
         />
       }

@@ -1,13 +1,17 @@
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+//Components
+import List from '@/components/lists/List';
 //Assets
 import backgrounds from '@/global/background';
 //Hooks
 import { useAppDispatch, useAppSelector } from '@/hooks/ReduxHooks';
 //Redux
-import { setCategoryGenre, setTracksByGenre } from '@/features/TracksSlice';
+import { setCategoryGenre, setTracksByGenre, setTracksQueue } from '@/features/TracksSlice';
+import { setAttributes } from '@/features/PlayerSlice';
+//types
 import { MediaData } from '@/types/Types';
-import List from '@/components/lists/List';
+
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -30,13 +34,39 @@ const GenreScreen = () => {
     }
   }, [genre])
 
+  const setTrackHandler = ({ track }: { track: MediaData }) => {
+    if (track) {
+      dispatch(setAttributes({
+        title: track.title,
+        artist: track.artist,
+        album: track.album,
+        genre: track.genre,
+        picture: track.picture,
+        uri: track.uri,
+        duration: track.duration
+      }));
+    }
+  }
+
+  const setQueue = () => {
+    dispatch(setTracksQueue(tracks))
+  }
+
   const handleBack = () => {
     dispatch(setCategoryGenre(''))
     setShowTrack(false)
   }
 
   return (
-    <List category='genre' backgroundSource={bckgnd} showTrack={showTrack} list={genres} tracks={tracks} onBackPress={handleBack} />
+    <List 
+      category='genre' 
+      backgroundSource={bckgnd} 
+      showTrack={showTrack} 
+      list={genres} 
+      tracks={tracks} 
+      onBackPress={handleBack}
+      setTrackHandler={setTrackHandler}
+      setQueueHandler={setQueue} />
   )
 }
 

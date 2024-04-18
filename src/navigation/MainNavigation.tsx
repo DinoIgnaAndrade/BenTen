@@ -26,11 +26,9 @@ const MainNavigation = () => {
       try {
         const files = await getAudioFiles();
         dispatch(setTracks(files));
-
         dispatch(setAlbums());
         dispatch(setGenres());
         dispatch(setArtists());
-        
         setIsLoading(false);
       } catch (error) {
         console.error('Error al obtener archivos de audio:', error);

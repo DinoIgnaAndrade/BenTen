@@ -1,20 +1,23 @@
 //Modules Imports
-import React, { useState } from 'react';
-import { View, Dimensions, StyleSheet, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Dimensions, StyleSheet, Image, Pressable } from 'react-native';
 //Services
 import { AudioService } from '../services/AudioServices';
 //Asssets
 import backgrounds from '@/global/background';
 import coverImage from '@/global/cover';
+import PlaylistQueueIcon from '@/components/svg/controls/PlaylistQueueIcon'
 //Hooks
-import { useAppSelector } from '../hooks/ReduxHooks';
+import { useAppDispatch, useAppSelector } from '../hooks/ReduxHooks';
 import { useCoverSettingImage, useReset, useSetTime, useSoundInitialization, useTimeConversion } from '@/hooks/usePlayerEffects';
 //Components
 import Controls from '@/components/playerComponets/Controls';
 import TagInfo from '@/components/playerComponets/TagInfo';
 import Slider from '@/components/playerComponets/Slider';
+import ModalListQueue from '@/components/modal/ModalListQueue';
 //Tipos
-import { Time } from '@/types/Types';
+import { MediaData, Time } from '@/types/Types';
+import { setTracksQueue } from '@/features/TracksSlice';
 
 //Dimesiones de la pantalla
 const windowWidth = Dimensions.get('window').width;
@@ -26,8 +29,26 @@ const PlayerScreen: React.FC = () => {
   const [trackDuration, setTrackDuration] = useState<Time>({ minutes: 0, seconds: 0 });
   const [currentTime, setCurrentTime] = useState<Time>({ minutes: 0, seconds: 0 });
   const [changeTime, setChangeTime] = useState<Time>({ minutes: 0, seconds: 0 });
+  const [modalVisible, setModalVisible] = useState(false);
   //Redux State
+  const dispatch = useAppDispatch();
   const track = useAppSelector(state => state.player);
+  const trackQueue: MediaData[] = useAppSelector(state => state.trackList.tracksQueue);
+
+  const handleInitialState  = () => {
+    dispatch(setTracksQueue('all'));
+  }
+
+  useEffect(() => {
+    handleInitialState();
+  },[])
+
+  useEffect(() => {
+    if(trackQueue){
+      console.log('Queue list', trackQueue);
+    }
+  },[modalVisible])
+
   //Sound Services
   const audioService = AudioService();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -61,6 +82,11 @@ const PlayerScreen: React.FC = () => {
 
       <Image source={bckgnd} style={styles.background} />
 
+      <Pressable style={styles.playlist} onPress={() => setModalVisible(true)}>
+        <PlaylistQueueIcon color={'white'} size={40} />
+      </Pressable>
+
+
       <Slider
         totalDuration={trackDuration}
         currentTime={currentTime}
@@ -80,6 +106,8 @@ const PlayerScreen: React.FC = () => {
         isPlaying={isPlaying}
         playOrPauseSound={playOrPauseSound}
       />
+
+      <ModalListQueue modalVisibleHandler={() => setModalVisible(false)} modalVisible={modalVisible} audioFiles={trackQueue} />
 
     </View>
   );
@@ -101,4 +129,13 @@ const styles = StyleSheet.create({
     height: windowHeight,
     resizeMode: 'cover',
   },
+
+  playlist: {
+    position: 'absolute',
+    top: 30,
+    right: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 1000,
+    padding: 10,
+  }
 })
