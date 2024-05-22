@@ -10,3 +10,7 @@ Lo que se espera lograr.
 
 <img title="a title" alt="Alt text" src='./assets/WireFrameBenTen.jpg'>
 
+Lo que se logro al final.
+
+<img title="a title" alt="Alt text" src='./assets/after.jpg'>
+
