@@ -5,6 +5,7 @@ import React from 'react'
 import Card from '../cards/Card';
 //Hooks
 import { MediaData } from '@/types/Types';
+import { useAppSelector } from '@/hooks/ReduxHooks';
 
 type Props = {
   audioFiles?: MediaData[];
@@ -15,6 +16,7 @@ type Props = {
 }
 
 const TrackList: React.FC<Props> = ({ audioFiles, text, category, setTrackHandler, setQueueHandler }) => {
+  const uri:string = useAppSelector(state => state.player.uri);
   return (
     <>
       {
@@ -32,7 +34,7 @@ const TrackList: React.FC<Props> = ({ audioFiles, text, category, setTrackHandle
           showsVerticalScrollIndicator={false}
           style={{ backfaceVisibility: 'hidden', backgroundColor: 'transparent' }}
           data={audioFiles}
-          renderItem={({ item }) => <Card track={item} setTrackHandler={setTrackHandler} setQueueHandler={setQueueHandler} />}
+          renderItem={({ item }) => <Card track={item} setTrackHandler={setTrackHandler} setQueueHandler={setQueueHandler}/>}
           keyExtractor={(item) => item.uri}
         />
       }

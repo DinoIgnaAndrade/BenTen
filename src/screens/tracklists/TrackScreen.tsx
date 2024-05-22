@@ -23,7 +23,7 @@ const TrackScreen = () => {
   const tracks = useAppSelector(state => state.trackList.tracks);
 
   const dispatch = useAppDispatch();
-  const setTrackHandler = ({ track }: { track: MediaData }) => {
+  const setTrack = ({ track }: { track: MediaData }) => {
     if (track) {
       dispatch(setAttributes({
         title: track.title,
@@ -44,7 +44,7 @@ const TrackScreen = () => {
   return (
     <View>
       <Image source={bckgnd} style={styles.background} />
-      <TrackList audioFiles={tracks} category='all' setTrackHandler={setTrackHandler} setQueueHandler={setQueue}/>
+      <TrackList audioFiles={tracks} category='all' setTrackHandler={setTrack} setQueueHandler={setQueue}/>
     </View>
   )
 }

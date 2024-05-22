@@ -1,10 +1,10 @@
 // Modules Imports
-import React from 'react'
+import React, { useState } from 'react'
 import { Text, StyleSheet, Pressable } from 'react-native';
 //Types
 import { MediaData } from '@/types/Types';
 //Hooks
-import { useAppDispatch } from '../../hooks/ReduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHooks';
 //Redux
 import { setCategoryArtist, setCategoryGenre, setCategoryAlbum } from '@/features/TracksSlice';
 
@@ -19,6 +19,7 @@ type Props = {
 const Card: React.FC<Props> = ({ track, text, category ,setTrackHandler, setQueueHandler }) => {
   //Dispatch
   const dispatch = useAppDispatch();
+
 
   const onPressFilter = () => {
     switch (category) {

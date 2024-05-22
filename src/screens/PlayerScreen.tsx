@@ -17,7 +17,9 @@ import Slider from '@/components/playerComponets/Slider';
 import ModalListQueue from '@/components/modal/ModalListQueue';
 //Tipos
 import { MediaData, Time } from '@/types/Types';
+//Redux
 import { setTracksQueue } from '@/features/TracksSlice';
+import { setAttributes } from '@/features/PlayerSlice';
 
 //Dimesiones de la pantalla
 const windowWidth = Dimensions.get('window').width;
@@ -29,25 +31,20 @@ const PlayerScreen: React.FC = () => {
   const [trackDuration, setTrackDuration] = useState<Time>({ minutes: 0, seconds: 0 });
   const [currentTime, setCurrentTime] = useState<Time>({ minutes: 0, seconds: 0 });
   const [changeTime, setChangeTime] = useState<Time>({ minutes: 0, seconds: 0 });
+  //Modal
   const [modalVisible, setModalVisible] = useState(false);
   //Redux State
   const dispatch = useAppDispatch();
   const track = useAppSelector(state => state.player);
   const trackQueue: MediaData[] = useAppSelector(state => state.trackList.tracksQueue);
 
-  const handleInitialState  = () => {
-    dispatch(setTracksQueue('all'));
+  const handleInitialState = () => {
+    dispatch(setTracksQueue([]));
   }
 
   useEffect(() => {
     handleInitialState();
-  },[])
-
-  useEffect(() => {
-    if(trackQueue){
-      console.log('Queue list', trackQueue);
-    }
-  },[modalVisible])
+  }, [])
 
   //Sound Services
   const audioService = AudioService();
@@ -69,14 +66,67 @@ const PlayerScreen: React.FC = () => {
   useReset(currentTime, trackDuration, setIsPlaying, audioService, setCurrentTime);
   //Seteo de tiempo
   useSetTime(changeTime, audioService, setCurrentTime);
-
-  //Funciones de control
+  //FUNCIONES DE CONTROL
+  const setTrack = ({ track }: { track: MediaData }) => {
+    if (track) {
+      dispatch(setAttributes({
+        title: track.title,
+        artist: track.artist,
+        album: track.album,
+        genre: track.genre,
+        picture: track.picture,
+        uri: track.uri,
+        duration: track.duration
+      }));
+    }
+  }
   const playOrPauseSound = async () => {
     // Implementar la lógica para reproducir o pausar el sonido
     await audioService.playOrPauseSound();
     audioService.isPlaying ? setIsPlaying(false) : setIsPlaying(true);
   };
-
+  const nextTrack = () => {
+    if (trackQueue.length === 0) {
+      return;
+    }
+    const currentIndex = trackQueue.findIndex(song => song.uri === track.uri);
+    if (currentIndex === -1) {
+      return;
+    }
+    if (currentIndex < trackQueue.length - 1) {
+      const nextTrack: MediaData = trackQueue[currentIndex + 1];
+      dispatch(setAttributes({
+        title: nextTrack.title,
+        artist: nextTrack.artist,
+        album: nextTrack.album,
+        genre: nextTrack.genre,
+        picture: nextTrack.picture,
+        uri: nextTrack.uri,
+        duration: nextTrack.duration
+      }));
+    }
+  }
+  const previousTrack = () => {
+    if (trackQueue.length === 0) {
+      return;
+    }
+    const currentIndex = trackQueue.findIndex(song => song.uri === track.uri);
+    if (currentIndex === -1 || currentIndex === 0) {
+      return;
+    }
+    if (currentIndex < trackQueue.length - 1) {
+      const nextTrack: MediaData = trackQueue[currentIndex - 1];
+      dispatch(setAttributes({
+        title: nextTrack.title,
+        artist: nextTrack.artist,
+        album: nextTrack.album,
+        genre: nextTrack.genre,
+        picture: nextTrack.picture,
+        uri: nextTrack.uri,
+        duration: nextTrack.duration
+      }));
+    }
+  }
   return (
     <View style={styles.container}>
 
@@ -105,9 +155,11 @@ const PlayerScreen: React.FC = () => {
       <Controls
         isPlaying={isPlaying}
         playOrPauseSound={playOrPauseSound}
+        nextTrackHandler={nextTrack}
+        previousTrackHandler={previousTrack}
       />
 
-      <ModalListQueue modalVisibleHandler={() => setModalVisible(false)} modalVisible={modalVisible} audioFiles={trackQueue} />
+      <ModalListQueue modalVisibleHandler={() => setModalVisible(false)} modalVisible={modalVisible} audioFiles={trackQueue} setTrackHandler={setTrack} />
 
     </View>
   );

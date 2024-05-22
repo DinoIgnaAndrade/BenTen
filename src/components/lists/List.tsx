@@ -19,7 +19,6 @@ type Props = {
 }
 
 const List: React.FC<Props> = ({ category, backgroundSource, showTrack, list, tracks, onBackPress, setTrackHandler, setQueueHandler }) => {
-
     return (
         <View>
             <Image source={backgroundSource} style={styles.background} />

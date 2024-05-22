@@ -9,15 +9,17 @@ import LeftArrowIcon from '../svg/controls/LeftArrowIcon';
 type Props = {
   isPlaying: boolean
   playOrPauseSound: () => void;
+  nextTrackHandler: () => void;
+  previousTrackHandler: () => void;
 }
 
-const Controls: React.FC<Props> = ({ isPlaying, playOrPauseSound }) => {
+const Controls: React.FC<Props> = ({ isPlaying, playOrPauseSound, nextTrackHandler, previousTrackHandler }) => {
 
   return (
 
     <View style={styles.controlsContainer}>
       
-      <Pressable style={styles.arrow} onPress={null}>
+      <Pressable style={styles.arrow} onPress={previousTrackHandler}>
         <LeftArrowIcon size={50} color="white"/>
       </Pressable>
 
@@ -31,7 +33,7 @@ const Controls: React.FC<Props> = ({ isPlaying, playOrPauseSound }) => {
         }
       </Pressable>
 
-      <Pressable style={styles.arrow} onPress={null}>
+      <Pressable style={styles.arrow} onPress={nextTrackHandler}>
         <RightArrowIcon size={50} color="white"/>
       </Pressable>
     </View>

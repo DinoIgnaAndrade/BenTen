@@ -11,19 +11,24 @@ type Props = {
   modalVisible: boolean
   audioFiles: MediaData[]
   modalVisibleHandler: () => void
+  setTrackHandler: ( { track }: { track: MediaData }) => void
 }
 
-const ModalListQueue: React.FC<Props> = ({ modalVisible, modalVisibleHandler, audioFiles }) => {
+const ModalListQueue: React.FC<Props> = ({ modalVisible, modalVisibleHandler, audioFiles , setTrackHandler }) => {
 
   return (
-    <Modal animationType='slide' transparent={true} visible={modalVisible}>
+    <Modal animationType='fade' transparent={true} visible={modalVisible}>
 
       <View style={styles.modal}>
+
         <Pressable style={styles.back} onPress={modalVisibleHandler}>
           <BackIcon color='white' size={30} />
         </Pressable>
-        <TrackList audioFiles={audioFiles} />
+
+        <TrackList audioFiles={audioFiles} setTrackHandler={setTrackHandler} />
+
       </View>
+
     </Modal>
   )
 }
@@ -34,18 +39,20 @@ const styles = StyleSheet.create({
   modal: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 100,
+    borderTopStartRadius: 60,
+    borderTopEndRadius: 60,
+    padding: 20,
+    gap: 15,
   },
   back: {
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
-    borderRadius: 1000,
     width: 50,
     height: 50,
+    borderRadius: 1000,
   },
   backText: {
     color: 'white',

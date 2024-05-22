@@ -34,7 +34,7 @@ const GenreScreen = () => {
     }
   }, [genre])
 
-  const setTrackHandler = ({ track }: { track: MediaData }) => {
+  const setTrack = ({ track }: { track: MediaData }) => {
     if (track) {
       dispatch(setAttributes({
         title: track.title,
@@ -65,7 +65,7 @@ const GenreScreen = () => {
       list={genres} 
       tracks={tracks} 
       onBackPress={handleBack}
-      setTrackHandler={setTrackHandler}
+      setTrackHandler={setTrack}
       setQueueHandler={setQueue} />
   )
 }

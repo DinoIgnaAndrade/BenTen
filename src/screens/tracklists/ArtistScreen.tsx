@@ -22,9 +22,6 @@ const ArtistScreen = () => {
   const artist: string = useAppSelector((state) => state.trackList.artist);
   const tracks: MediaData[] = useAppSelector((state) => state.trackList.tracksByArtist);
 
-
-  console.log('artist', artist);
-
   useEffect(() => {
     if (artist) {
       setShowTrack(true)
